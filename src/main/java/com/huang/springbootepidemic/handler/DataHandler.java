@@ -64,4 +64,10 @@ public class DataHandler {
 
         return result;
     }
+
+    public static void main(String[] args) throws Exception {
+        String str ="https://ncov.dxy.cn/ncovh5/view/pneumonia?scene=2&from=singlemessage&isappinstalled=0";
+        String re = HttpURLConnectionUtil.doGet(str);
+        System.out.println(re);
+    }
 }
