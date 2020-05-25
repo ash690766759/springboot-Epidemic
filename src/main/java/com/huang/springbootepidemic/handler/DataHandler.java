@@ -2,19 +2,50 @@ package com.huang.springbootepidemic.handler;
 
 import com.google.gson.Gson;
 import com.huang.springbootepidemic.bean.DataBean;
+import com.huang.springbootepidemic.service.DataService;
 import com.huang.springbootepidemic.util.HttpURLConnectionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//提供数据
+//提供json数据
+@Component
 public class DataHandler {
     public static String str = "https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5";
-    public static String str2;
 
-    public static List<DataBean> getData() throws Exception{
+    //初始化数据
+    @Autowired
+    DataService dataService;
+    @PostConstruct
+    public void saveData(){
+        System.out.println("saveDate执行了");
+        try {
+            List<DataBean> dataBeans = getData();
+            //  先清空数据   再初始化数据
+            dataService.remove(null);//清空全部数据
+            dataService.saveBatch(dataBeans);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //定时更新  支持cron表达式
+    @Scheduled(cron = "0 0/1 * * * ? ")
+    public void udpateDate(){
+        System.out.println("更新数据");
+        saveData();
+    }
+
+
+
+    public static List<DataBean> getData() {
+        System.out.println("DataHandler.getDate执行了");
         /*测试Gson
         Gson gson = new Gson();
         //Gson gson1 = new GsonBuilder().create();
