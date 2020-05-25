@@ -12,6 +12,7 @@ import java.util.Map;
 //提供数据
 public class DataHandler {
     public static String str = "https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5";
+    public static String str2;
 
     public static List<DataBean> getData() throws Exception{
         /*测试Gson
