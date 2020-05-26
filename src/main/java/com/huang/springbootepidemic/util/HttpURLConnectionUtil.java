@@ -30,7 +30,7 @@ public class HttpURLConnectionUtil {
             conn.setReadTimeout(60000);//超时out
             //请求头参数接收       可以指定接收数据类型Accpt
             //响应头参数接收                       content-type
-           // conn.setRequestProperty("Accpt","application/json");
+            conn.setRequestProperty("Accept","application/json");
 
             //发送请求
             conn.connect();
@@ -64,7 +64,8 @@ public class HttpURLConnectionUtil {
 
     public static void main(String[] args) {
         String str = "https://ncov.dxy.cn/ncovh5/view/pneumonia?scene=2&from=singlemessage&isappinstalled=0";
-        String result = doGet(str);
+        String str2 = "https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5";
+        String result = doGet(str2);
         System.out.println(result);
     }
 }
