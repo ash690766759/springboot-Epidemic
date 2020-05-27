@@ -26,6 +26,7 @@ public class DataController {
     @GetMapping("/graphPie")
     public String getGraphPie(Model model){
         ArrayList<GraphPieBean> list  = GraphHandler.getGraphPieData();
+        Collections.sort(list);
         model.addAttribute("list",new Gson().toJson(list));
         return "graphPie";
     }
