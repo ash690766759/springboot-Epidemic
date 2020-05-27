@@ -72,7 +72,7 @@ public class DataHandler {
         Map map = gson.fromJson(responseJson,Map.class);
         String subStr = (String) map.get("data");//拿出data
         Map subMap = gson.fromJson(subStr,Map.class);
-        //map.areaTree.0.children.0.total.*     里面的值
+        //map.areaTree.0.children.1.total.*     里面的值
 
         //取出areaTree中的值
         ArrayList areaList = (ArrayList) subMap.get("areaTree");

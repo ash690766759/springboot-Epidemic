@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xlms:th="http://www.thymeleaf.org" xmlns:xlms="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>晃晃出品：境外输入省市TOP10</title>
+    <script type="text/javascript" src="echarts/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height: 400px"></div>
+
+<!--    在js中接收数据-->
+<script th:inline="javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var nameListStr = [[${nameList}]];//接收数据
+    var fromAbroadListStr = [[${fromAbroadList}]];
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '境外输入省市TOP10'
+        },
+        tooltip:{
+            trigger:"axis"   //每个点数值显示
+        },
+        xAxis: {
+            data:JSON.parse(nameListStr) //转化为JSON
+        },
+        yAxis: {
+            type: 'value'       //数值类型
+        },
+        series: [{
+            name: '境外输入',   //每个点
+            data: JSON.parse(fromAbroadListStr),
+            type: 'bar',
+            barWidth:'60%'
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

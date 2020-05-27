@@ -1,8 +1,7 @@
 package com.huang.springbootepidemic.controller;
 
 import com.google.gson.Gson;
-import com.huang.springbootepidemic.bean.DataBean;
-import com.huang.springbootepidemic.bean.GraphBean;
+import com.huang.springbootepidemic.bean.*;
 import com.huang.springbootepidemic.handler.DataHandler;
 import com.huang.springbootepidemic.handler.GraphHandler;
 import com.huang.springbootepidemic.handler.JsoupHandler;
@@ -15,12 +14,59 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.xml.ws.Action;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class DataController {
     @Autowired
     DataService dataService;
+
+    @GetMapping("/graphPie")
+    public String getGraphPie(Model model){
+        ArrayList<GraphPieBean> list  = GraphHandler.getGraphPieData();
+        model.addAttribute("list",new Gson().toJson(list));
+        return "graphPie";
+    }
+
+    @GetMapping("/graphColumn")
+    public String getGraphColumnar(Model model){
+        List<GraphColumnBean> list = GraphHandler.getGraphColumnarData();
+        Collections.sort(list);
+
+        ArrayList nameList = new ArrayList<>();
+        ArrayList fromAbroadList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            GraphColumnBean bean = list.get(i);
+            nameList.add(bean.getArea());
+            fromAbroadList.add(bean.getFromAbroad());
+        }
+        Gson gson = new Gson();
+        model.addAttribute("nameList",gson.toJson(nameList));
+        model.addAttribute("fromAbroadList",gson.toJson(fromAbroadList));
+        return "graphColumnar";
+    }
+
+    @GetMapping("/graphAdd")
+    public String graphAdd(Model model){
+        List<GraphAddBean> list = GraphHandler.getGraphAddData();
+        List<String> dateList = new ArrayList<>();
+        List<Integer> addConfirmList = new ArrayList<>();
+        List<Integer> addSuspectList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            GraphAddBean bean = list.get(i);
+            dateList.add(bean.getDate());
+            addConfirmList.add(bean.getAddConfirm());
+            addSuspectList.add(bean.getAddSuspect());
+        }
+        Gson gson = new Gson();
+        model.addAttribute("dateList",gson.toJson(dateList));
+        model.addAttribute("addConfirmList",gson.toJson(addConfirmList));
+        model.addAttribute("addSuspectList",gson.toJson(addSuspectList));
+        return "graphAdd";
+    }
 
     @GetMapping("/graph")
     public String graph(Model model){

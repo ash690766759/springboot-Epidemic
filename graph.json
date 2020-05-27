@@ -2879,33 +2879,6 @@
 		"healRate": "142.9",
 		"date": "05.25"
 	}],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//----------------------------------
-
-
 	"dailyNewAddHistory": [{
 		"date": "01.20",
 		"hubei": 72,
@@ -3542,10 +3515,6 @@
 		"country": 7,
 		"notHubei": 7
 	}],
-
-
-
-
 	"dailyHistory": [{
 		"date": "01.20",
 		"hubei": {
@@ -7826,28 +7795,6 @@
 		"url": "https://view.inews.qq.com/a/GDC2020041100526400",
 		"title": "广东新增3例本土病例"
 	}],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	"provinceCompare": {
 		"上海": {
 			"nowConfirm": -3,
@@ -8088,27 +8035,11 @@
 			"zero": 15
 		}
 	},
-
-
-
-
-
-
 	"cityStatis": {
 		"confirm": 338,
 		"zeroNowConfirm": 330,
 		"notZeroNowConfirm": 8
 	},
-
-
-
-
-
-
-
-
-
-
 	"nowConfirmStatis": {
 		"gat": 50,
 		"import": 46,

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xlms:th="http://www.thymeleaf.org" xmlns:xlms="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>晃晃出品：全国疫情新增图表</title>
+    <script type="text/javascript" src="echarts/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height: 400px"></div>
+
+<!--    在js中接收数据-->
+<script th:inline="javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var dateStr = [[${dateList}]];//接收数据
+    var addConfirmList = [[${addConfirmList}]];
+    var addSuspectList=[[${addSuspectList}]];
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '全国新增确诊趋势'
+        },
+        tooltip:{
+            trigger:"axis"   //每个点数值显示
+        },
+        legend:{
+            data:["新增确诊","新增疑似"]   //折线含义
+        },
+        xAxis: {
+            data:JSON.parse(dateStr) //转化为JSON
+        },
+        yAxis: {
+            type: 'value'       //数值类型
+        },
+        series: [{
+            name: '新增确诊',   //每个点
+            data: JSON.parse(addConfirmList),
+            type: 'line'
+        },{
+            name: '新增疑似',   //每个点
+            data: JSON.parse(addSuspectList),
+            type: 'line'
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

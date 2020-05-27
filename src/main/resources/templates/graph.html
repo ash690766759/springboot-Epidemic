@@ -3,7 +3,7 @@
       xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>晃晃出品：疫情图表</title>
+    <title>晃晃出品：全国疫情图表</title>
     <script type="text/javascript" src="echarts/echarts.min.js"></script>
 </head>
 <body>
@@ -35,7 +35,7 @@
                 type: 'value'       //数值类型
             },
             series: [{
-                name: '现有确诊',
+                name: '现有确诊',   //每个点
                 data: JSON.parse(nowConfirmStr),
                 type: 'line'
             }]
