@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xlms:th="http://www.thymeleaf.org" xmlns:xlms="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>晃晃出品：全国疫情地图</title>
+    <script type="text/javascript" src="echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="echarts/china.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height: 400px"></div>
+
+<!--    在js中接收数据-->
+<script th:inline="javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    var mapStr = [[${mapData}]];//接收数据
+
+    // 指定图表的配置项和数据
+    var  option = {
+        title: {
+            text: '疫情地图',
+            subtext: '仅供参考',
+            x: 'cneter'
+        },
+        tooltip: {
+            trigger: 'item'     //鼠标hover
+        },
+        series: [
+            {
+                name: '现存确诊',
+                type: 'map',
+                mapType: 'china',       //显示中国地图
+                roam: false,
+                label: {
+                    normal: {
+                        // formatter: '{b}',
+                        position: 'center',
+                        show: true,
+                        textStyle: {
+                            color: 'rgba(0,0,0,0.4)'
+                        }
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                data:JSON.parse(mapStr)
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    var chart = echarts.init(document.getElementById("main"))
+    chart.setOption(option)
+</script>
+</body>
+</html>

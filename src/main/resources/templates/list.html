@@ -2,18 +2,175 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>晃晃出品：疫情最新动态</title>
-    <link rel="stylesheet" th:href="@{/bootatrap.css}">
+    <title th:text="#{list.title}">晃晃出品：疫情最新动态</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.css}">
+    <script type="text/javascript" src="echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="echarts/china.js"></script>
 </head>
-<body>
-    <h2>国内疫情情况如下</h2>
+<body class="container">
+    <h2 th:text="#{list.h2}">国内疫情情况如下</h2>
+
+    <label>
+        <a class="btn btn-sm" th:href="@{/(lan='zh_CN')}">中文</a>
+        <a class="btn btn-sm" th:href="@{/(lan='en_US')}">英文</a>
+    </label>
+
+    <div id="map" style="width: 600px;height: 400px"></div>
+    <script th:inline="javascript">
+        var mapStr = [[${mapData}]];//接收数据
+        // 指定图表的配置项和数据
+        var  option = {
+            title: {
+                text: '疫情地图',
+                subtext: '仅供参考',
+                x: 'cneter'
+            },
+            tooltip: {
+                trigger: 'item'     //鼠标hover
+            },
+            series: [
+                {
+                    name: '现存确诊',
+                    type: 'map',
+                    mapType: 'china',       //显示中国地图
+                    roam: false,
+                    label: {
+                        normal: {
+                            // formatter: '{b}',
+                            position: 'center',
+                            show: true,
+                            textStyle: {
+                                color: 'rgba(0,0,0,0.4)'
+                            }
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    data:JSON.parse(mapStr)
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        var chart = echarts.init(document.getElementById("map"))
+        chart.setOption(option)
+    </script>
+
+    <div id="bar" style="width: 600px;height: 400px"></div>
+
+    <!--    在js中接收数据-->
+    <script th:inline="javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('bar'));
+
+        var nameListStr = [[${nameList}]];//接收数据
+        var fromAbroadListStr = [[${fromAbroadList}]];
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '境外输入省市TOP10'
+            },
+            tooltip:{
+                trigger:"axis"   //每个点数值显示
+            },
+            xAxis: {
+                data:JSON.parse(nameListStr) //转化为JSON
+            },
+            yAxis: {
+                type: 'value'       //数值类型
+            },
+            series: [{
+                name: '境外输入',   //每个点
+                data: JSON.parse(fromAbroadListStr),
+                type: 'bar',
+                barWidth:'60%'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <div id="line" style="width: 600px;height: 400px"></div>
+
+    <!--    在js中接收数据-->
+    <script th:inline="javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('line'));
+
+        var dateStr = [[${dateList}]];//接收数据
+        var nowConfirmStr = [[${nowConfirmList}]];
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '全国现有确诊趋势'
+            },
+            tooltip:{
+                trigger:"axis"   //每个点数值显示
+            },
+            legend:{
+                data:["现有确诊"]   //折线含义
+            },
+            xAxis: {
+                data:JSON.parse(dateStr) //转化为JSON
+            },
+            yAxis: {
+                type: 'value'       //数值类型
+            },
+            series: [{
+                name: '现有确诊',   //每个点
+                data: JSON.parse(nowConfirmStr),
+                type: 'line'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <div id="pie" style="width: 600px;height: 400px"></div>
+
+    <!--    在js中接收数据-->
+    <script th:inline="javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('pie'));
+
+        var str = [[${list}]];//接收数据
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '全国现有确诊构成'
+            },
+            tooltip:{
+                trigger:"axis"   //每个点数值显示
+            },
+            series: [
+                {
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['40%', '50%'],
+                    data: JSON.parse(str)
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+
+
+
     <table class="table table-hover">
         <thead>
-            <th>地区</th>
-            <th>现有确诊</th>
-            <th>累计确诊</th>
-            <th>治愈</th>
-            <th>死亡</th>
+            <th><p th:text="#{list.table.name1}">地区</p></th>
+            <th><p th:text="#{list.table.name2}">现有确诊</p></th>
+            <th><p th:text="#{list.table.name3}">累计确诊</p></th>
+            <th><p th:text="#{list.table.name4}">治愈</p></th>
+            <th><p th:text="#{list.table.name5}">死亡</p></th>
         </thead>
         <tbody>
             <tr th:each="data:${dataList}">

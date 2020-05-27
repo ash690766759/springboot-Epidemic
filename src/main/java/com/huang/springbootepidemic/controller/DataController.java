@@ -6,6 +6,7 @@ import com.huang.springbootepidemic.handler.DataHandler;
 import com.huang.springbootepidemic.handler.GraphHandler;
 import com.huang.springbootepidemic.handler.JsoupHandler;
 import com.huang.springbootepidemic.service.DataService;
+import com.huang.springbootepidemic.util.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,20 @@ import java.util.List;
 public class DataController {
     @Autowired
     DataService dataService;
+
+    @GetMapping("/map")
+    public String map(Model model){
+        ArrayList<DataBean> list = (ArrayList<DataBean>) dataService.list();
+        ArrayList<MapBean> mapList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            DataBean bean = list.get(i);
+            MapBean map = new MapBean(bean.getArea(),bean.getNowConfirm());
+            mapList.add(map);
+        }
+
+        model.addAttribute("mapData",new Gson().toJson(mapList));
+        return "map";
+    }
 
     @GetMapping("/graphPie")
     public String getGraphPie(Model model){
@@ -93,9 +108,51 @@ public class DataController {
 
     @GetMapping("/")
     public String list(Model model){
-        System.out.println("controller执行");
-        List<DataBean> list = dataService.list();
-        model.addAttribute("dataList",list);
+        //地图    数据库
+        ArrayList<DataBean> list1 = (ArrayList<DataBean>) dataService.list();
+        ArrayList<MapBean> mapList = new ArrayList<>();
+        for (int i = 0; i < list1.size(); i++) {
+            DataBean bean = list1.get(i);
+            MapBean map = new MapBean(bean.getArea(),bean.getNowConfirm());
+            mapList.add(map);
+        }
+        model.addAttribute("mapData",new Gson().toJson(mapList));
+
+        //柱状图      请求数据
+        List<GraphColumnBean> list2 = GraphHandler.getGraphColumnarData();
+        Collections.sort(list2);
+        ArrayList nameList = new ArrayList<>();
+        ArrayList fromAbroadList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            GraphColumnBean bean = list2.get(i);
+            nameList.add(bean.getArea());
+            fromAbroadList.add(bean.getFromAbroad());
+        }
+        Gson gson = new Gson();
+        model.addAttribute("nameList",gson.toJson(nameList));
+        model.addAttribute("fromAbroadList",gson.toJson(fromAbroadList));
+
+        //折线图
+        List<GraphBean> list3 = GraphHandler.getGraphData();
+        ArrayList<String> dateList = new ArrayList<>();
+        ArrayList<Integer> nowConfirmList = new ArrayList<>();
+        for (int i = 0; i < list3.size(); i++) {
+            GraphBean graphBean = list3.get(i);
+            dateList.add(graphBean.getDate());
+            nowConfirmList.add(graphBean.getNoConfirm());
+        }
+        model.addAttribute("dateList",gson.toJson(dateList));
+        model.addAttribute("nowConfirmList",gson.toJson(nowConfirmList));
+
+        //饼状图
+        ArrayList<GraphPieBean> list4  = GraphHandler.getGraphPieData();
+        Collections.sort(list4);
+        model.addAttribute("list",new Gson().toJson(list4));
+
+        //表格    数据库
+        List<DataBean> list5 = dataService.list();
+        model.addAttribute("dataList",list5);
+
         return "list";
     }
 

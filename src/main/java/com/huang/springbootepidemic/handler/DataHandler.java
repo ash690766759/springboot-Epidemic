@@ -39,6 +39,7 @@ public class DataHandler {
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void udpateDate(){
         System.out.println("更新数据");
+        //TODO  增加监听    提供用户订阅功能    提示方式：邮件/短信/微信推送
         saveData();
     }
 
