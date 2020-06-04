@@ -10,10 +10,10 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
     @Autowired
     LoginInterceptor loginInterceptor;
 
-    //注册自定义拦截器  声明相关拦截规则
+    /*//注册自定义拦截器  声明相关拦截规则
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/login","/*.css","/*.js");
-    }
+                .excludePathPatterns("/login","/welcome","/*.css","/*.js");
+    }*/
 }

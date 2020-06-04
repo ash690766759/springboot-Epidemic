@@ -18,7 +18,14 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
+    //spring-security登录 配置
+
+
+
+
+
+    //普通登录
+    /*@PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password")String password, Map<String,Object> map,HttpSession session){
         if (!StringUtils.isEmpty(username) && "123456".equals(password)){
             //登录成功跳转首页
@@ -26,5 +33,5 @@ public class LoginController {
             return "redirect:/";
         }
         return "login";
-    }
+    }*/
 }

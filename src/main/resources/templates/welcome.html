@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.com" xmlns:xlmns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.css}">
+</head>
+<body class="container">
+    <h1>欢迎来到springboot实战项目</h1>
+    <hr>
+    <div>
+        <h3>初级工程师</h3>
+        <ul>
+            <li><a th:href="@{/level/1}">搬砖</a></li>
+        </ul>
+    </div>
+    <div>
+        <h3>高级工程师</h3>
+        <ul>
+            <li><a th:href="@{/level/2}">搬砖</a></li>
+        </ul>
+    </div>
+    <div>
+        <h3>架构师</h3>
+        <ul>
+            <li><a th:href="@{/level/3}">PPT</a></li>
+        </ul>
+    </div>
+</body>
+</html>

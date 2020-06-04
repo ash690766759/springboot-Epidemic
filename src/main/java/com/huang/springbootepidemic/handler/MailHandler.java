@@ -1,7 +1,6 @@
 package com.huang.springbootepidemic.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,7 +11,6 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.util.*;
 
 @Component
@@ -78,5 +76,10 @@ public class MailHandler {
         list.add("人生充满了起起落落。关键在于，在顶端时好好享受；在低谷时不失勇气。");
 
         list.add("路，走不通时，学会拐弯，结，解不开时，学会忘记；事，难以做时，学会放下；缘，渐行远时，选择随意。");
+    }
+
+    public static void main(String[] args) throws MessagingException {
+        MailHandler mailHandler = new MailHandler();
+        mailHandler.send();
     }
 }
