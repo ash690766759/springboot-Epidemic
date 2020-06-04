@@ -5,6 +5,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -34,6 +35,7 @@ public class MailHandler {
     private TemplateEngine templateEngine;
 
     //结合模板使用
+    @Async
     public void sendByTemplate() throws MessagingException {
         System.out.println("执行模板mail发送");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
